@@ -2,6 +2,41 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const Header_main = () => {
+  function checkLogin() {
+    let token = localStorage.getItem("token");
+    let auth=JSON.parse(localStorage.getItem('auth'))
+    if (token) {
+      return (
+        <>
+          <li>
+            <NavLink to=''>
+              <i className="fa fa-user"></i>{auth.name}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/logout">
+              <i className="fa fa-lock"></i>Logout
+            </NavLink>
+          </li>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <li>
+            <NavLink to="/login">
+              <i className="fa fa-lock"></i>Login
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/register">
+              <i className="fa fa-lock"></i>Register
+            </NavLink>
+          </li>
+        </>
+      );
+    }
+  }
   return (
     <header id="header">
       <div className="header_top">
@@ -130,16 +165,7 @@ const Header_main = () => {
                       <i className="fa fa-shopping-cart"></i> Cart
                     </a>
                   </li>
-                  <li>
-                    <NavLink to="/login">
-                      <i className="fa fa-lock"></i>Login
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/register">
-                      <i className="fa fa-lock"></i>Register
-                    </NavLink>
-                  </li>
+                  {checkLogin()}
                 </ul>
               </div>
             </div>
