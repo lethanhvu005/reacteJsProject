@@ -2458,3 +2458,84 @@ textarea {
 .through {
     text-decoration: line-through;
 }
+.logout-page {
+  display: flex;
+  justify-content: center;
+  padding: 70px 16px;
+  background: #fafafa;
+}
+
+.logout-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 36px 24px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.logout-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff3e3;
+  color: #fe980f;
+  font-size: 28px;
+}
+
+.logout-card h2 {
+  margin: 22px 0 12px;
+  color: #363432;
+  font-size: 24px;
+}
+
+.logout-card p {
+  color: #777;
+  line-height: 1.7;
+}
+
+.logout-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.logout-cancel,
+.logout-confirm {
+  padding: 12px 18px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.logout-cancel {
+  background: #f3f3f3;
+  color: #555;
+}
+
+.logout-confirm {
+  background: #fe980f;
+  color: #fff;
+}
+
+.logout-cancel:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.logout-confirm:hover {
+  background: #e58608;
+}
+
+.logout-actions > :focus-visible {
+  outline: 3px solid #363432;
+  outline-offset: 3px;
+}

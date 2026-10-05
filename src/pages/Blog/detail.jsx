@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import API from "../../services/api";
 import Menu_Left from "../../components/menu_left";
+import Comment from "./comment";
+import ReplayBox from "./replayBox";
 
 const DetailBlog = () => {
   const [detailBlog, setDetailBlog] = useState(null);
+  const [comment,setComment] = useState([])
   const { id } = useParams();
   useEffect(() => {
     API.get(`blog/detail/${id}`)
       .then((res) => {
         setDetailBlog(res.data.data);
+        setComment(res.data.data.comment)
+        console.log(res.data.data)
       })
       .catch((error) => console.log(error));
   }, [id]);
@@ -42,7 +47,7 @@ const DetailBlog = () => {
               <i className="fa fa-star-half-o"></i>
             </span>
           </div>
-          <NavLink >
+          <NavLink>
             <img
               src={`http://localhost/laravel8/public/upload/Blog/image/${detailBlog.image}`}
               alt=""
@@ -74,19 +79,17 @@ const DetailBlog = () => {
             <ul className="tag">
               <li>TAG:</li>
               <li>
-                <NavLink className="color" >
+                <NavLink className="color">
                   Pink <span>/</span>
                 </NavLink>
               </li>
               <li>
-                <NavLink className="color" >
+                <NavLink className="color">
                   T-Shirt <span>/</span>
                 </NavLink>
               </li>
               <li>
-                <NavLink className="color" >
-                  Girls
-                </NavLink>
+                <NavLink className="color">Girls</NavLink>
               </li>
             </ul>
           </div>
@@ -103,6 +106,9 @@ const DetailBlog = () => {
             <h2 className="title text-center">Latest From our Blog</h2>
           </div>
           {renderDetailBlog()}
+
+          <Comment comment={comment} />
+          <ReplayBox/>
         </div>
       </div>
     </div>

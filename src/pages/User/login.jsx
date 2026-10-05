@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import API from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import Err from "./err";
-
+import { AuthContext } from "../../contexts/authContext";
 const Login = () => {
+  const { setAuth } = useContext(AuthContext);
   const [input, setInput] = useState({ email: "", password: "" });
   const [err, setErr] = useState("");
   const navigate = useNavigate();
@@ -22,12 +23,14 @@ const Login = () => {
     API.post("login", data)
       .then((res) => {
         console.log(res.data);
+
         if (res.data.response === "error") {
           setErr({ login: res.data.errors.errors });
           return;
         }
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("auth", JSON.stringify(res.data.Auth));
+        setAuth(res.data.Auth);
         alert("Login done");
         navigate("/");
       })

@@ -1,6 +1,6 @@
 import "./App.css";
 import AppRoutes from "./routes/appRoutes";
-function App(props) {
+function App() {
   return (
     <>
       <AppRoutes/>

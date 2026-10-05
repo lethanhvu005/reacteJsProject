@@ -1,22 +1,28 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { use, useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/authContext";
 
 const Header_main = () => {
+  const { auth, setAuth } = useContext(AuthContext);
+  const nav = useNavigate()
+  function logout(){
+    setAuth(null)
+    nav("/login")
+  }
   function checkLogin() {
-    let token = localStorage.getItem("token");
-    let auth=JSON.parse(localStorage.getItem('auth'))
-    if (token) {
+    if (auth) {
       return (
         <>
           <li>
-            <NavLink to=''>
-              <i className="fa fa-user"></i>{auth.name}
+            <NavLink to="">
+              <i className="fa fa-user"></i>
+              {auth.name}
             </NavLink>
           </li>
           <li>
-            <NavLink to="/logout">
+            <a onClick={logout}>
               <i className="fa fa-lock"></i>Logout
-            </NavLink>
+            </a>
           </li>
         </>
       );
