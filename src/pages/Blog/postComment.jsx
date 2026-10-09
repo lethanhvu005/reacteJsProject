@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/authContext";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Err from "../User/err";
 import API from "../../services/api";
+import { CommentContext } from "../../contexts/commentContext";
 
-const ReplayBox = () => {
+const ReplayBox = ({parent_id=0,onClose} ) => {
+  let { setComment } = useContext(CommentContext);
   const { id } = useParams();
   const { auth } = useContext(AuthContext);
-  console.log(auth)
+  console.log(auth);
   const [err, setErr] = useState({});
   const [input, setInput] = useState({ message: "" });
   function handeInput(e) {
@@ -34,7 +36,7 @@ const ReplayBox = () => {
       name_user: auth.name,
       comment: input.message,
       image_user: auth.avatar,
-      id_comment: 0,
+      id_comment: parent_id,
     };
     API.post(`blog/comment/${id}`, data, {
       headers: {
@@ -42,11 +44,12 @@ const ReplayBox = () => {
         Accept: "application/json",
       },
     })
-      .then((res) => {
-        console.log(res.data);
-        setErr({});
+      .then(async () => {
         setInput({ message: "" });
-        alert("post comment done");
+        setErr({});
+        const response = await API.get(`blog/detail/${id}`);
+        setComment(response.data.data.comment ?? []);
+        onClose?.()
       })
       .catch((error) => {
         console.log(error.response?.status);

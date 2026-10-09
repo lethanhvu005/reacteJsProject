@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import API from "../../services/api";
 import Menu_Left from "../../components/menu_left";
-import Comment from "./comment";
-import ReplayBox from "./replayBox";
+import Comment from "./displayComment";
+import ReplayBox from "./postComment";
+import { CommentContext } from "../../contexts/commentContext";
 
 const DetailBlog = () => {
   const [detailBlog, setDetailBlog] = useState(null);
-  const [comment,setComment] = useState([])
+  const {setComment} = useContext(CommentContext)
   const { id } = useParams();
   useEffect(() => {
     API.get(`blog/detail/${id}`)
       .then((res) => {
         setDetailBlog(res.data.data);
-        setComment(res.data.data.comment)
+        setComment(res.data.data.comment ??[])
         console.log(res.data.data)
       })
       .catch((error) => console.log(error));
-  }, [id]);
+  }, [id,setComment]);
   function renderDetailBlog() {
     if (!detailBlog) {
       return <div>Blog không tồn tại</div>;
@@ -107,7 +108,7 @@ const DetailBlog = () => {
           </div>
           {renderDetailBlog()}
 
-          <Comment comment={comment} />
+          <Comment/>
           <ReplayBox/>
         </div>
       </div>
