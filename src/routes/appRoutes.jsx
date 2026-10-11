@@ -6,6 +6,8 @@ import IndexBlog from "../pages/Blog";
 import DetailBlog from "../pages/Blog/detail";
 import Login from "../pages/User/login";
 import Register from "../pages/User/register";
+import UpdateUser from "../pages/User/update";
+import MyProduct from "../pages/Product/myProduct";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +18,8 @@ const AppRoutes = () => {
         <Route path="/blog/detail/:id" element={<DetailBlog />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/user/updateUser/:id" element={<UpdateUser/>}/>
+        <Route path='/user/my-product' element={<MyProduct/>}/>
       </Route>
     </Routes>
   );

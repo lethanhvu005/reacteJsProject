@@ -5,6 +5,7 @@ import Menu_Left from "../../components/menu_left";
 import Comment from "./displayComment";
 import ReplayBox from "./postComment";
 import { CommentContext } from "../../contexts/commentContext";
+import Star from "./star";
 
 const DetailBlog = () => {
   const [detailBlog, setDetailBlog] = useState(null);
@@ -40,13 +41,7 @@ const DetailBlog = () => {
                 {detailBlog.created_at.slice(0, 10)}
               </li>
             </ul>
-            <span>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star-half-o"></i>
-            </span>
+            <Star/>
           </div>
           <NavLink>
             <img

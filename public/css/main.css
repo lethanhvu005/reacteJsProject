@@ -1421,7 +1421,10 @@ h2.title {
     margin-top: 185px;
     overflow: hidden;
 }
-
+.update-page {
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
 .login-form {}
 
 .signup-form {}

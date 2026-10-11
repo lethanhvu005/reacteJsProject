@@ -235,7 +235,7 @@ const Menu_Left = () => {
           <div className="well">
             <input
               type="text"
-              classNameName="span2"
+              className="span2"
               defaultValue=""
               data-slider-min="0"
               data-slider-max="600"

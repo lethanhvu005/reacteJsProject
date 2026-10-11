@@ -1,10 +1,13 @@
 import React from "react";
+import Menu_Left from "../components/menu_left";
 
 const Home = () => {
   return (
     <section id="slider">
       <div className="container">
         <div className="row">
+          <Menu_Left />
+
           <div className="col-sm-12">
             <div
               id="slider-carousel"

@@ -3,7 +3,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/authContext";
 
 const Header_main = () => {
+  
   const { auth, setAuth } = useContext(AuthContext);
+  const id = auth.id
   const nav = useNavigate()
   function logout(){
     setAuth(null)
@@ -152,7 +154,7 @@ const Header_main = () => {
               <div className="shop-menu clearfix pull-right">
                 <ul className="nav navbar-nav">
                   <li>
-                    <NavLink to="/account">
+                    <NavLink to={`/user/updateUser/${id}`}>
                       <i className="fa fa-user"></i> Account
                     </NavLink>
                   </li>

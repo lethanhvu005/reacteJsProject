@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import API from "../../services/api";
 import Menu_Left from "../../components/menu_left";
 import { NavLink } from "react-router-dom";
+import Star from "./star";
 const IndexBlog = () => {
   const [dataBlog, setDataBlog] = useState([]);
   useEffect(() => {
@@ -33,13 +34,6 @@ const IndexBlog = () => {
                   {blog.created_at.slice(0, 10)}
                 </li>
               </ul>
-              <span>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star-half-o"></i>
-              </span>
             </div>
             <NavLink to={`/blog/detail/${blog.id}`}>
               <img
