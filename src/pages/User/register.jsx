@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Err from "./err";
 import API from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  let nav = useNavigate();
   const [inputs, setInput] = useState({
     name: "",
     password: "",
@@ -55,6 +57,7 @@ const Register = () => {
       .then((res) => {
         alert("Đăng ksy thành công");
         console.log(res.data);
+        nav('/login')
       })
       .catch((error) => {
         console.log("STATUS:", error.response?.status);

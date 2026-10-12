@@ -30,7 +30,6 @@ const Menu_Account = () => {
       </div>
       <div className="col-sm-9">
         <div className="blog-post-area">
-          <h2 className="title text-center">Update user</h2>
         </div>
       </div>
     </div>
