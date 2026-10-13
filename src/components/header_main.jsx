@@ -169,9 +169,9 @@ const Header_main = () => {
                     </a>
                   </li>
                   <li>
-                    <a href="cart.html">
+                    <NavLink to='product/cart'>
                       <i className="fa fa-shopping-cart"></i> Cart
-                    </a>
+                    </NavLink>
                   </li>
                   {checkLogin()}
                 </ul>

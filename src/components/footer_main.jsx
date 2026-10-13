@@ -22,7 +22,7 @@ const Footer_main = () => {
                 <div className="video-gallery text-center">
                   <a href="#">
                     <div className="iframe-img">
-                      <img src="images/home/iframe1.png" alt="" />
+                      <img src="../images/home/iframe1.png" alt="" />
                     </div>
                     <div className="overlay-icon">
                       <i className="fa fa-play-circle-o"></i>
@@ -37,7 +37,7 @@ const Footer_main = () => {
                 <div className="video-gallery text-center">
                   <a href="#">
                     <div className="iframe-img">
-                      <img src="images/home/iframe2.png" alt="" />
+                      <img src="../images/home/iframe2.png" alt="" />
                     </div>
                     <div className="overlay-icon">
                       <i className="fa fa-play-circle-o"></i>
@@ -52,7 +52,7 @@ const Footer_main = () => {
                 <div className="video-gallery text-center">
                   <a href="#">
                     <div className="iframe-img">
-                      <img src="images/home/iframe3.png" alt="" />
+                      <img src="../images/home/iframe3.png" alt="" />
                     </div>
                     <div className="overlay-icon">
                       <i className="fa fa-play-circle-o"></i>
@@ -67,7 +67,7 @@ const Footer_main = () => {
                 <div className="video-gallery text-center">
                   <a href="#">
                     <div className="iframe-img">
-                      <img src="images/home/iframe4.png" alt="" />
+                      <img src="../images/home/iframe4.png" alt="" />
                     </div>
                     <div className="overlay-icon">
                       <i className="fa fa-play-circle-o"></i>

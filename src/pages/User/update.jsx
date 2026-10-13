@@ -133,7 +133,6 @@ const UpdateUser = () => {
                   name="avatar"
                   placeholder="Avatar"
                   onChange={handeInput}
-                  
                   multiple
                 />
                 <input

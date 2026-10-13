@@ -1,13 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Menu_Left from "../components/menu_left";
+import API from "../services/api";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
+  const [inputs, setInput] = useState([]);
+  let token = localStorage.getItem("token");
+  useEffect(() => {
+    API.get("user/my-product", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "applicatin/json",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.response === "success") {
+          console.log(res.data);
+        }
+        setInput(Object.values(res.data.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  function addToCart(id) {
+    API.get(`product/detail/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        let cartOld =JSON.parse( localStorage.getItem('cart'))||[]
+        let cart = res.data.data
+        let cartNew = [...cartOld,cart]
+        localStorage.setItem('cart', JSON.stringify(cartNew))
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return <></>;
+  }
   return (
     <section id="slider">
       <div className="container">
         <div className="row">
-          <Menu_Left />
-
           <div className="col-sm-12">
             <div
               id="slider-carousel"
@@ -126,6 +165,75 @@ const Home = () => {
               >
                 <i className="fa fa-angle-right"></i>
               </a>
+            </div>
+            <Menu_Left />
+            <div className="col-sm-9 padding-right">
+              <div className="features_items">
+                <h2 className="title text-center">Features Items</h2>
+                {inputs.map((item) => {
+                  let image = JSON.parse(item.image || []);
+                  return (
+                    <div className="col-sm-4" key={item.id}>
+                      <div className="product-image-wrapper">
+                        <div className="single-products">
+                          <div className="productinfo text-center">
+                            <img
+                              src={`http://localhost/laravel8/public/upload/product/${item.id_user}/${image[0]}`}
+                              alt=""
+                            />
+                            <h2>${item.price}</h2>
+                            <p>{item.name}</p>
+                            <a href="#" className="btn btn-default add-to-cart">
+                              <i className="fa fa-shopping-cart"></i>Add to cart
+                            </a>
+                          </div>
+                          <div className="product-overlay">
+                            <div className="overlay-content">
+                              <h2>${item.price}</h2>
+                              <p>{item.name}</p>
+                              <br></br>
+                              <button
+                                onClick={() => addToCart(item.id)}
+                                className="btn btn-default add-to-cart"
+                              >
+                                <i className="fa fa-shopping-cart"></i>Add to
+                                cart
+                              </button>
+                              <NavLink
+                                className="btn btn-default add-to-cart"
+                                style={{ marginLeft: "10px" }}
+                                to={`product/detail/${item.id}`}
+                              >
+                                <i
+                                  className="fa fa-arrow-right"
+                                  aria-hidden="true"
+                                ></i>
+                                Read More
+                              </NavLink>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="choose">
+                          <ul className="nav nav-pills nav-justified">
+                            <li>
+                              <a href="#">
+                                <i className="fa fa-plus-square"></i>Add to
+                                wishlist
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <i className="fa fa-plus-square"></i>Add to
+                                compare
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
