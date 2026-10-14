@@ -3,7 +3,9 @@ import API from "../../services/api";
 
 const CartProduct = () => {
   let cartLocal = JSON.parse(localStorage.getItem("cart"));
-  const [cart, setCarPrd] = useState([]);
+  const [cart, setCarPrd] = useState(
+    JSON.parse(localStorage.getItem("cartPrd")) || [],
+  );
   console.log(cart);
   useEffect(() => {
     API.post("product/cart", cartLocal)
@@ -20,7 +22,15 @@ const CartProduct = () => {
   let totalAll = cart.reduce((sum, item) => {
     return sum + Number(item.qty) * Number(item.price);
   }, 0);
-
+  function save(cartNew) {
+    setCarPrd(cartNew);
+    localStorage.setItem("cartPrd", JSON.stringify(cartNew));
+    let cartObj = cartNew.reduce((obj, item) => {
+      obj[item.id] = item.qty;
+      return obj;
+    }, {});
+    localStorage.setItem("cart", JSON.stringify(cartObj));
+  }
   function handleUp(id) {
     let cartNew = cart.map((item) => {
       if (item.id === id) {
@@ -31,8 +41,7 @@ const CartProduct = () => {
       }
       return item;
     });
-    setCarPrd(cartNew);
-    localStorage.setItem("cart", JSON.stringify(cartNew));
+    save(cartNew);
   }
   function handleDown(id) {
     let cartNew = cart
@@ -46,15 +55,12 @@ const CartProduct = () => {
         return item;
       })
       .filter((item) => item.qty > 0);
-    setCarPrd(cartNew);
-    localStorage.setItem("cart", JSON.stringify(cartNew));
+    save(cartNew);
   }
   function deletePrd(id) {
     let cartNew = cart.filter((item) => item.id !== id);
-    setCarPrd(cartNew);
-    localStorage.setItem("cart", JSON.stringify(cartNew));
+    save(cartNew);
   }
-
   return (
     <>
       <section id="cart_items">
