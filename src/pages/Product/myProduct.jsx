@@ -66,14 +66,12 @@ const MyProduct = () => {
                       <tr>
                         <td className="cart_product">
                           <NavLink href="">
-                            {console.log(
-                              `http://localhost/laravel8/public/upload/product/${item.id_user}/${item.image[0]}`,
-                            )}
-                            <img
+                           
+                            {<img
                               style={{ width: "100px", height: "70px" }}
                               src={`http://localhost/laravel8/public/upload/product/${item.id_user}/${image[0]}`}
                               alt=""
-                            />
+                            />}
                           </NavLink>
                         </td>
                         <td className="cart_description">

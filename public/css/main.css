@@ -2542,3 +2542,12 @@ textarea {
   outline: 3px solid #363432;
   outline-offset: 3px;
 }
+.cart_quantity_button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cart_quantity_input {
+  float: none;
+}

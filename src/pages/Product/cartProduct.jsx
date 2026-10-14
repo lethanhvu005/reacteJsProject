@@ -1,164 +1,152 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import API from "../../services/api";
 
 const CartProduct = () => {
+  let cartLocal = JSON.parse(localStorage.getItem("cart"));
+  const [cart, setCarPrd] = useState([]);
+  console.log(cart);
+  useEffect(() => {
+    API.post("product/cart", cartLocal)
+      .then((res) => {
+        console.log("dataCart", res.data.data);
+        setCarPrd(res.data.data);
+        // alert("done");
+      })
+      .catch((error) => {
+        console.log(error);
+        // alert("thất bại");
+      });
+  }, []);
+  let totalAll = cart.reduce((sum, item) => {
+    return sum + Number(item.qty) * Number(item.price);
+  }, 0);
+
+  function handleUp(id) {
+    let cartNew = cart.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          qty: Number(item.qty) + 1,
+        };
+      }
+      return item;
+    });
+    setCarPrd(cartNew);
+    localStorage.setItem("cart", JSON.stringify(cartNew));
+  }
+  function handleDown(id) {
+    let cartNew = cart
+      .map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            qty: Number(item.qty) - 1,
+          };
+        }
+        return item;
+      })
+      .filter((item) => item.qty > 0);
+    setCarPrd(cartNew);
+    localStorage.setItem("cart", JSON.stringify(cartNew));
+  }
+  function deletePrd(id) {
+    let cartNew = cart.filter((item) => item.id !== id);
+    setCarPrd(cartNew);
+    localStorage.setItem("cart", JSON.stringify(cartNew));
+  }
+
   return (
     <>
       <section id="cart_items">
-        <div class="container">
-          <div class="breadcrumbs">
-            <ol class="breadcrumb">
+        <div className="container">
+          <div className="breadcrumbs">
+            <ol className="breadcrumb">
               <li>
                 <a href="#">Home</a>
               </li>
-              <li class="active">Shopping Cart</li>
+              <li className="active">Shopping Cart</li>
             </ol>
           </div>
-          <div class="table-responsive cart_info">
-            <table class="table table-condensed">
+          <div className="table-responsive cart_info">
+            {/* chỗ hiển thị prd */}
+
+            <table className="table table-condensed">
               <thead>
-                <tr class="cart_menu">
-                  <td class="image">Item</td>
-                  <td class="description"></td>
-                  <td class="price">Price</td>
-                  <td class="quantity">Quantity</td>
-                  <td class="total">Total</td>
+                <tr className="cart_menu">
+                  <td className="image">Item</td>
+                  <td className="description"></td>
+                  <td className="price">Price</td>
+                  <td className="quantity">Quantity</td>
+                  <td className="total">Total</td>
                   <td></td>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="cart_product">
-                    <a href="">
-                      <img src="images/cart/one.png" alt="" />
-                    </a>
-                  </td>
-                  <td class="cart_description">
-                    <h4>
-                      <a href="">Colorblock Scuba</a>
-                    </h4>
-                    <p>Web ID: 1089772</p>
-                  </td>
-                  <td class="cart_price">
-                    <p>$59</p>
-                  </td>
-                  <td class="cart_quantity">
-                    <div class="cart_quantity_button">
-                      <a class="cart_quantity_up" href="">
-                        {" "}
-                        +{" "}
-                      </a>
-                      <input
-                        class="cart_quantity_input"
-                        type="text"
-                        name="quantity"
-                        value="1"
-                        autocomplete="off"
-                        size="2"
-                      />
-                      <a class="cart_quantity_down" href="">
-                        {" "}
-                        -{" "}
-                      </a>
-                    </div>
-                  </td>
-                  <td class="cart_total">
-                    <p class="cart_total_price">$59</p>
-                  </td>
-                  <td class="cart_delete">
-                    <a class="cart_quantity_delete" href="">
-                      <i class="fa fa-times"></i>
-                    </a>
-                  </td>
-                </tr>
+                {cart.map((item) => {
+                  let image = JSON.parse(item.image);
+                  return (
+                    <tr key={item.id}>
+                      <td className="cart_product">
+                        <a href="">
+                          <img
+                            style={{ width: "150px", height: "70px" }}
+                            src={`http://localhost/laravel8/public/upload/product/${item.id_user}/${image[0]}`}
+                            alt=""
+                          />
+                        </a>
+                      </td>
+                      <td className="cart_description">
+                        <h4>
+                          <a href="">{item.name}</a>
+                        </h4>
+                        <p>Web ID: {item.id}</p>
+                      </td>
+                      <td className="cart_price">
+                        <p>${item.price}</p>
+                      </td>
+                      <td className="cart_quantity">
+                        <div className="cart_quantity_button">
+                          <button
+                            type="button"
+                            className="cart_quantity_down"
+                            onClick={() => handleDown(item.id)}
+                          >
+                            -
+                          </button>
 
-                <tr>
-                  <td class="cart_product">
-                    <a href="">
-                      <img src="images/cart/two.png" alt="" />
-                    </a>
-                  </td>
-                  <td class="cart_description">
-                    <h4>
-                      <a href="">Colorblock Scuba</a>
-                    </h4>
-                    <p>Web ID: 1089772</p>
-                  </td>
-                  <td class="cart_price">
-                    <p>$59</p>
-                  </td>
-                  <td class="cart_quantity">
-                    <div class="cart_quantity_button">
-                      <a class="cart_quantity_up" href="">
-                        {" "}
-                        +{" "}
-                      </a>
-                      <input
-                        class="cart_quantity_input"
-                        type="text"
-                        name="quantity"
-                        value="1"
-                        autocomplete="off"
-                        size="2"
-                      />
-                      <a class="cart_quantity_down" href="">
-                        {" "}
-                        -{" "}
-                      </a>
-                    </div>
-                  </td>
-                  <td class="cart_total">
-                    <p class="cart_total_price">$59</p>
-                  </td>
-                  <td class="cart_delete">
-                    <a class="cart_quantity_delete" href="">
-                      <i class="fa fa-times"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="cart_product">
-                    <a href="">
-                      <img src="images/cart/three.png" alt="" />
-                    </a>
-                  </td>
-                  <td class="cart_description">
-                    <h4>
-                      <a href="">Colorblock Scuba</a>
-                    </h4>
-                    <p>Web ID: 1089772</p>
-                  </td>
-                  <td class="cart_price">
-                    <p>$59</p>
-                  </td>
-                  <td class="cart_quantity">
-                    <div class="cart_quantity_button">
-                      <a class="cart_quantity_up" href="">
-                        {" "}
-                        +{" "}
-                      </a>
-                      <input
-                        class="cart_quantity_input"
-                        type="text"
-                        name="quantity"
-                        value="1"
-                        autocomplete="off"
-                        size="2"
-                      />
-                      <a class="cart_quantity_down" href="">
-                        {" "}
-                        -{" "}
-                      </a>
-                    </div>
-                  </td>
-                  <td class="cart_total">
-                    <p class="cart_total_price">$59</p>
-                  </td>
-                  <td class="cart_delete">
-                    <a class="cart_quantity_delete" href="">
-                      <i class="fa fa-times"></i>
-                    </a>
-                  </td>
-                </tr>
+                          <input
+                            className="cart_quantity_input"
+                            type="text"
+                            value={item.qty}
+                            readOnly
+                            size="2"
+                          />
+
+                          <button
+                            type="button"
+                            className="cart_quantity_up"
+                            onClick={() => handleUp(item.id)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td className="cart_total">
+                        <p className="cart_total_price">
+                          {Number(item.qty) * Number(item.price)}
+                        </p>
+                      </td>
+                      <td className="cart_delete">
+                        <button
+                          className="cart_quantity_delete"
+                          onClick={() => deletePrd(item.id)}
+                        >
+                          <i className="fa fa-times"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -166,18 +154,18 @@ const CartProduct = () => {
       </section>
 
       <section id="do_action">
-        <div class="container">
-          <div class="heading">
+        <div className="container">
+          <div className="heading">
             <h3>What would you like to do next?</h3>
             <p>
               Choose if you have a discount code or reward points you want to
               use or would like to estimate your delivery cost.
             </p>
           </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="chose_area">
-                <ul class="user_option">
+          <div className="row">
+            <div className="col-sm-6">
+              <div className="chose_area">
+                <ul className="user_option">
                   <li>
                     <input type="checkbox" />
                     <label>Use Coupon Code</label>
@@ -191,8 +179,8 @@ const CartProduct = () => {
                     <label>Estimate Shipping & Taxes</label>
                   </li>
                 </ul>
-                <ul class="user_info">
-                  <li class="single_field">
+                <ul className="user_info">
+                  <li className="single_field">
                     <label>Country:</label>
                     <select>
                       <option>United States</option>
@@ -205,7 +193,7 @@ const CartProduct = () => {
                       <option>Dubai</option>
                     </select>
                   </li>
-                  <li class="single_field">
+                  <li className="single_field">
                     <label>Region / State:</label>
                     <select>
                       <option>Select</option>
@@ -218,43 +206,50 @@ const CartProduct = () => {
                       <option>Dubai</option>
                     </select>
                   </li>
-                  <li class="single_field zip-field">
+                  <li className="single_field zip-field">
                     <label>Zip Code:</label>
                     <input type="text" />
                   </li>
                 </ul>
-                <a class="btn btn-default update" href="">
+                <a className="btn btn-default update" href="">
                   Get Quotes
                 </a>
-                <a class="btn btn-default check_out" href="">
+                <a className="btn btn-default check_out" href="">
                   Continue
                 </a>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="total_area">
-                <ul>
-                  <li>
-                    Cart Sub Total <span>$59</span>
-                  </li>
-                  <li>
-                    Eco Tax <span>$2</span>
-                  </li>
-                  <li>
-                    Shipping Cost <span>Free</span>
-                  </li>
-                  <li>
-                    Total <span>$61</span>
-                  </li>
-                </ul>
-                <a class="btn btn-default update" href="">
-                  Update
-                </a>
-                <a class="btn btn-default check_out" href="">
-                  Check Out
-                </a>
-              </div>
-            </div>
+            {/* CHỖ TÍNH TIỀN */}
+            {cart.map((item) => {
+              let sumTotal = 0;
+              sumTotal = sumTotal + Number(item.qty) * Number(item.price);
+              return (
+                <div className="col-sm-6">
+                  <div className="total_area">
+                    <ul>
+                      <li>
+                        Cart Sub Total <span>${totalAll}</span>
+                      </li>
+                      <li>
+                        Eco Tax <span>Free</span>
+                      </li>
+                      <li>
+                        Shipping Cost <span>Free</span>
+                      </li>
+                      <li>
+                        Total <span>${totalAll}</span>
+                      </li>
+                    </ul>
+                    <a className="btn btn-default update" href="">
+                      Update
+                    </a>
+                    <button className="btn btn-default check_out" href="">
+                      Check Out
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

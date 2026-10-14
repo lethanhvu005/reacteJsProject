@@ -3,13 +3,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/authContext";
 
 const Header_main = () => {
-  
   const { auth, setAuth } = useContext(AuthContext);
-  const id = auth.id
-  const nav = useNavigate()
-  function logout(){
-    setAuth(null)
-    nav("/login")
+  const nav = useNavigate();
+  function logout() {
+    setAuth(null);
+    nav("/login");
   }
   function checkLogin() {
     if (auth) {
@@ -154,7 +152,7 @@ const Header_main = () => {
               <div className="shop-menu clearfix pull-right">
                 <ul className="nav navbar-nav">
                   <li>
-                    <NavLink to={`/user/updateUser/${id}`}>
+                    <NavLink to={`/user/updateUser/${auth?.id}`}>
                       <i className="fa fa-user"></i> Account
                     </NavLink>
                   </li>
@@ -169,7 +167,7 @@ const Header_main = () => {
                     </a>
                   </li>
                   <li>
-                    <NavLink to='product/cart'>
+                    <NavLink to="product/cart">
                       <i className="fa fa-shopping-cart"></i> Cart
                     </NavLink>
                   </li>

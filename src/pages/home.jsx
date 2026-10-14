@@ -33,15 +33,20 @@ const Home = () => {
     })
       .then((res) => {
         console.log(res.data);
-        let cartOld =JSON.parse( localStorage.getItem('cart'))||[]
-        let cart = res.data.data
-        let cartNew = [...cartOld,cart]
-        localStorage.setItem('cart', JSON.stringify(cartNew))
+        let cartOld = JSON.parse(localStorage.getItem("cart")) || {};
+        let cart = res.data.data;
+        let id = cart.id
+        if (cartOld[id]) {
+          cartOld[id] = cartOld[id] + 1;
+          localStorage.setItem("cart", JSON.stringify(cartOld));
+        } else {
+          cartOld[id]= 1;
+          localStorage.setItem("cart", JSON.stringify(cartOld));
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-    return <></>;
   }
   return (
     <section id="slider">
