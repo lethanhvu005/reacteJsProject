@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Menu_Left from "../components/menu_left";
 import API from "../services/api";
 import { NavLink } from "react-router-dom";
+import { QuantityContext } from "../contexts/quantityContext";
 
 const Home = () => {
   const [inputs, setInput] = useState([]);
+  const {setQuantityPrd} = useContext(QuantityContext)
   let token = localStorage.getItem("token");
   useEffect(() => {
     API.get("user/my-product", {
@@ -42,6 +44,8 @@ const Home = () => {
         } else {
           cartOld[id]= 1;
           localStorage.setItem("cart", JSON.stringify(cartOld));
+          let cartQty =  JSON.parse(localStorage.getItem('cart'))
+          setQuantityPrd(Object.keys(cartQty).length)
         }
       })
       .catch((error) => {

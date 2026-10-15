@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import API from "../../services/api";
+import { QuantityContext } from "../../contexts/quantityContext";
 
 const CartProduct = () => {
   let cartLocal = JSON.parse(localStorage.getItem("cart"));
+  const {setQuantityPrd}=useContext(QuantityContext)
   const [cart, setCarPrd] = useState(
     JSON.parse(localStorage.getItem("cartPrd")) || [],
   );
@@ -30,6 +32,8 @@ const CartProduct = () => {
       return obj;
     }, {});
     localStorage.setItem("cart", JSON.stringify(cartObj));
+     let cartQty =  JSON.parse(localStorage.getItem('cart'))
+          setQuantityPrd(Object.keys(cartQty).length)
   }
   function handleUp(id) {
     let cartNew = cart.map((item) => {

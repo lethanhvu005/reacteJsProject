@@ -1,10 +1,13 @@
 import React, { use, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/authContext";
+import { QuantityContext } from "../contexts/quantityContext";
 
 const Header_main = () => {
   const { auth, setAuth } = useContext(AuthContext);
   const nav = useNavigate();
+  const { quantityPrd } = useContext(QuantityContext);
+  console.log(quantityPrd);
   function logout() {
     setAuth(null);
     nav("/login");
@@ -167,8 +170,9 @@ const Header_main = () => {
                     </a>
                   </li>
                   <li>
-                    <NavLink to="product/cart">
+                    <NavLink to="/product/cart" className="cart-link">
                       <i className="fa fa-shopping-cart"></i> Cart
+                      <span className="cart-badge">{quantityPrd}</span>
                     </NavLink>
                   </li>
                   {checkLogin()}
