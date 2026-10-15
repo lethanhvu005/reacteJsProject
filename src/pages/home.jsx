@@ -6,9 +6,10 @@ import { QuantityContext } from "../contexts/quantityContext";
 
 const Home = () => {
   const [inputs, setInput] = useState([]);
-  const {setQuantityPrd} = useContext(QuantityContext)
-  let token = localStorage.getItem("token");
+  const { addTo } = useContext(QuantityContext);
+
   useEffect(() => {
+    let token = localStorage.getItem("token");
     API.get("user/my-product", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -26,32 +27,8 @@ const Home = () => {
         console.log(error);
       });
   }, []);
-  function addToCart(id) {
-    API.get(`product/detail/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        let cartOld = JSON.parse(localStorage.getItem("cart")) || {};
-        let cart = res.data.data;
-        let id = cart.id
-        if (cartOld[id]) {
-          cartOld[id] = cartOld[id] + 1;
-          localStorage.setItem("cart", JSON.stringify(cartOld));
-        } else {
-          cartOld[id]= 1;
-          localStorage.setItem("cart", JSON.stringify(cartOld));
-          let cartQty =  JSON.parse(localStorage.getItem('cart'))
-          setQuantityPrd(Object.keys(cartQty).length)
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  
+  
   return (
     <section id="slider">
       <div className="container">
@@ -202,7 +179,7 @@ const Home = () => {
                               <p>{item.name}</p>
                               <br></br>
                               <button
-                                onClick={() => addToCart(item.id)}
+                                onClick={() => addTo(item.id, "cart")}
                                 className="btn btn-default add-to-cart"
                               >
                                 <i className="fa fa-shopping-cart"></i>Add to
@@ -225,10 +202,13 @@ const Home = () => {
                         <div className="choose">
                           <ul className="nav nav-pills nav-justified">
                             <li>
-                              <a href="#">
-                                <i className="fa fa-plus-square"></i>Add to
-                                wishlist
-                              </a>
+                              <button
+                                onClick={() => addTo(item.id, "wishlist")}
+                                className="fa fa-plus-square"
+                              >
+                                {" "}
+                                Add to wishlist
+                              </button>
                             </li>
                             <li>
                               <a href="#">

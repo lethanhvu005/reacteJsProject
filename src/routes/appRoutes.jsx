@@ -12,6 +12,7 @@ import AddProduct from "../pages/Product/addProduct";
 import EditProduct from "../pages/Product/editProduct";
 import ProductDetail from "../pages/Product/productDetail";
 import CartProduct from "../pages/Product/cartProduct";
+import WishListProduct from "../pages/Product/wishListProduct";
 
 const AppRoutes = () => {
   return (
@@ -25,9 +26,10 @@ const AppRoutes = () => {
         <Route path="/user/updateUser/:id" element={<UpdateUser />} />
         <Route path="/user/my-product" element={<MyProduct />} />
         <Route path="/user/product/add" element={<AddProduct />} />
-        <Route path="user/product/update/:id" element={<EditProduct />} />
-        <Route path="product/detail/:id" element={<ProductDetail/>}/>
-        <Route path="product/cart" element={<CartProduct/>}/>
+        <Route path="/user/product/update/:id" element={<EditProduct />} />
+        <Route path="/product/detail/:id" element={<ProductDetail/>}/>
+        <Route path="/product/cart" element={<CartProduct/>}/>
+        <Route path="/wishlist" element={<WishListProduct/>}/>
       </Route>
     </Routes>
   );

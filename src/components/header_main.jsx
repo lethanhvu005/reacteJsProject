@@ -6,7 +6,7 @@ import { QuantityContext } from "../contexts/quantityContext";
 const Header_main = () => {
   const { auth, setAuth } = useContext(AuthContext);
   const nav = useNavigate();
-  const { quantityPrd } = useContext(QuantityContext);
+  const { quantityPrd ,quantityWishlist} = useContext(QuantityContext);
   console.log(quantityPrd);
   function logout() {
     setAuth(null);
@@ -159,11 +159,14 @@ const Header_main = () => {
                       <i className="fa fa-user"></i> Account
                     </NavLink>
                   </li>
+
                   <li>
-                    <NavLink to="/wishlist">
-                      <i className="fa fa-star"></i> Wishlist
+                    <NavLink to="/wishlist" className="cart-link">
+                      <i className="fa fa-star"></i> WishList
+                      <span className="cart-badge">{quantityWishlist}</span>
                     </NavLink>
                   </li>
+
                   <li>
                     <a href="checkout.html">
                       <i className="fa fa-crosshairs"></i> Checkout
